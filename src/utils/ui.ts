@@ -152,4 +152,4 @@ export function progressStep(step: number, total: number, text: string): void {
   if (step === total) console.log();
 }
 
-export { BRAND, ctxGradient, warmGradient };
+export { BRAND };

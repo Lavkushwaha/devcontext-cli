@@ -9,7 +9,7 @@ import {
   cmdConfig,
   cmdInstallHook,
   cmdTimeMachine,
-} from "../commands/index.js";
+} from "../index.js";
 
 const program = new Command();
 

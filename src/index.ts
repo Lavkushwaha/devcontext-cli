@@ -5,7 +5,7 @@ import {
   SYSTEM_FILE,
   CHANGES_FILE,
   CONFIG_FILE,
-} from "../types.js";
+} from "./types.js";
 import {
   initGit,
   findRepoRoot,
@@ -14,8 +14,8 @@ import {
   getCommitLog,
   getLatestCommitHash,
   installHooks,
-} from "../core/git.js";
-import { scanRepo, detectStack } from "../core/scanner.js";
+} from "./core/git.js";
+import { scanRepo, detectStack } from "./core/scanner.js";
 import {
   compileContext,
   saveContext,
@@ -29,8 +29,8 @@ import {
   listSnapshots,
   readSnapshot,
   restoreSnapshot,
-} from "../core/compiler.js";
-import { initEncoder, countTokens, freeEncoder } from "../utils/tokens.js";
+} from "./core/compiler.js";
+import { initEncoder, countTokens, freeEncoder } from "./utils/tokens.js";
 import {
   showBanner,
   showMiniBanner,
@@ -44,7 +44,7 @@ import {
   tokenBadge,
   table,
   divider,
-} from "../utils/ui.js";
+} from "./utils/ui.js";
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 

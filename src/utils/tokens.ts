@@ -9,8 +9,8 @@ let useHeuristic = false;
 
 export async function initEncoder(): Promise<void> {
   try {
-    const { encoding_for_model } = await import("tiktoken");
-    encoder = encoding_for_model("cl100k_base");
+    const { get_encoding } = await import("tiktoken");
+    encoder = get_encoding("cl100k_base");
   } catch {
     useHeuristic = true;
   }
