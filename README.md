@@ -20,13 +20,15 @@ $ dev-context init
 
 ## Install
 
+Published as **`@incals/dev-context`** (scoped package; the CLI commands stay `dev-context`, `devcontext`, and `dctx`).
+
 ```bash
-npm install -g dev-context
+npm install -g @incals/dev-context
 ```
 
 Or use without installing:
 ```bash
-npx dev-context init
+npx @incals/dev-context init
 ```
 
 ## Quick Start
@@ -197,7 +199,7 @@ import {
   compileContext,
   readContext,
   listSnapshots,
-} from "dev-context";
+} from "@incals/dev-context";
 
 // Use in your own tools, IDE extensions, CI pipelines
 const root = await findRepoRoot();

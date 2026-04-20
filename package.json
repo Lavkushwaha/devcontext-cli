@@ -1,5 +1,5 @@
 {
-  "name": "dev-context",
+  "name": "@incals/dev-context",
   "version": "0.1.0",
   "description": "Git-aware AI context generator. Stop wasting tokens teaching AI about your codebase.",
   "keywords": ["git", "ai", "context", "developer-tools", "cli", "llm", "rag", "claude", "copilot"],
@@ -8,6 +8,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/devcontext/devcontext"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "main": "./dist/index.js",

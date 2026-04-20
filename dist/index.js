@@ -238,7 +238,7 @@ elif command -v devcontext > /dev/null 2>&1; then
 elif command -v dctx > /dev/null 2>&1; then
   dctx update --silent &
 elif command -v npx > /dev/null 2>&1; then
-  npx dev-context update --silent &
+  npx @incals/dev-context update --silent &
 fi
 `;
   for (const hookName of hooks) {
