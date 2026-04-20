@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("devcontext.init", async () => {
       const terminal = vscode.window.createTerminal("devcontext");
       terminal.show();
-      terminal.sendText("npx devcontext init");
+      terminal.sendText("npx devcontext-cli init");
     })
   );
 
@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("devcontext.update", async () => {
       const terminal = vscode.window.createTerminal("devcontext");
       terminal.show();
-      terminal.sendText("npx devcontext update");
+      terminal.sendText("npx devcontext-cli update");
       // Refresh status after a delay
       setTimeout(updateStatusBar, 3000);
     })
@@ -117,7 +117,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("devcontext.timeMachine", async () => {
       const terminal = vscode.window.createTerminal("devcontext");
       terminal.show();
-      terminal.sendText("npx devcontext tm list");
+      terminal.sendText("npx devcontext-cli tm list");
     })
   );
 
@@ -221,7 +221,7 @@ function setupFileWatcher(context: vscode.ExtensionContext): void {
         name: "devcontext",
         hideFromUser: true,
       });
-      terminal.sendText("npx devcontext update --silent");
+      terminal.sendText("npx devcontext-cli update --silent");
       setTimeout(() => {
         terminal.dispose();
         updateStatusBar();

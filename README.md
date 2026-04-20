@@ -21,12 +21,12 @@ $ devcontext init
 ## Install
 
 ```bash
-npm install -g devcontext
+npm install -g devcontext-cli
 ```
 
 Or use without installing:
 ```bash
-npx devcontext init
+npx devcontext-cli init
 ```
 
 ## Quick Start
@@ -197,7 +197,7 @@ import {
   compileContext,
   readContext,
   listSnapshots,
-} from "devcontext";
+} from "devcontext-cli";
 
 // Use in your own tools, IDE extensions, CI pipelines
 const root = await findRepoRoot();

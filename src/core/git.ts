@@ -98,7 +98,7 @@ if command -v devcontext > /dev/null 2>&1; then
 elif command -v dctx > /dev/null 2>&1; then
   dctx update --silent &
 elif command -v npx > /dev/null 2>&1; then
-  npx devcontext update --silent &
+  npx devcontext-cli update --silent &
 fi
 `;
 
