@@ -7,7 +7,7 @@
   "author": "dev-context",
   "repository": {
     "type": "git",
-    "url": "https://github.com/devcontext/devcontext"
+    "url": "https://github.com/Lavkushwaha/devcontext-cli"
   },
   "publishConfig": {
     "access": "public"

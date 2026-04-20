@@ -1,0 +1,29 @@
+# dev-context ignore patterns
+# Files listed here won't be included in context generation.
+# Uses glob syntax, same as .gitignore.
+
+# Build outputs
+build/
+dist/
+.next/
+target/
+
+# Dependencies
+node_modules/
+__pycache__/
+
+# Generated code
+*.g.dart
+*.freezed.dart
+*.min.js
+
+# Media
+*.png
+*.jpg
+*.svg
+*.mp4
+
+# Lock files
+package-lock.json
+yarn.lock
+pubspec.lock
