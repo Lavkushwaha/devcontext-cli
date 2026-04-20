@@ -1,0 +1,122 @@
+{
+  "name": "devcontext-vscode",
+  "displayName": "devcontext",
+  "description": "Git-aware AI context injection. Auto-inject codebase context before every AI query.",
+  "version": "0.1.0",
+  "publisher": "devcontext",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other", "Machine Learning"],
+  "keywords": ["ai", "context", "git", "copilot", "claude", "cursor"],
+  "activationEvents": ["workspaceContains:.context", "onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "devcontext.init",
+        "title": "devcontext: Initialize"
+      },
+      {
+        "command": "devcontext.update",
+        "title": "devcontext: Update Context"
+      },
+      {
+        "command": "devcontext.show",
+        "title": "devcontext: Show Context"
+      },
+      {
+        "command": "devcontext.copyContext",
+        "title": "devcontext: Copy Context to Clipboard"
+      },
+      {
+        "command": "devcontext.injectContext",
+        "title": "devcontext: Inject Context into Chat"
+      },
+      {
+        "command": "devcontext.timeMachine",
+        "title": "devcontext: Time Machine"
+      },
+      {
+        "command": "devcontext.settings",
+        "title": "devcontext: Open Settings"
+      }
+    ],
+    "configuration": {
+      "title": "devcontext",
+      "properties": {
+        "devcontext.autoInjectContext": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically inject context before every AI agent query"
+        },
+        "devcontext.askBeforeInject": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for confirmation before injecting context"
+        },
+        "devcontext.autoUpdateOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-update context when files are saved"
+        },
+        "devcontext.tokenBudget": {
+          "type": "number",
+          "default": 4000,
+          "description": "Token budget for context.md"
+        },
+        "devcontext.syncDepth": {
+          "type": "string",
+          "enum": ["recent", "inception"],
+          "default": "recent",
+          "description": "How far back to sync commits"
+        },
+        "devcontext.syncCommitCount": {
+          "type": "number",
+          "default": 500,
+          "description": "Number of commits to sync in inception mode"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "devcontext",
+          "title": "devcontext",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "devcontext": [
+        {
+          "id": "devcontext.status",
+          "name": "Status"
+        },
+        {
+          "id": "devcontext.timemachine",
+          "name": "Time Machine"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "devcontext.copyContext",
+          "group": "devcontext"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "watch": "npm run build -- --watch"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "devcontext": "^0.1.0"
+  }
+}
