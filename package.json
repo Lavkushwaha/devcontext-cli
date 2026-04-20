@@ -1,6 +1,6 @@
 {
   "name": "@incals/dev-context",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Git-aware AI context generator. Stop wasting tokens teaching AI about your codebase.",
   "keywords": ["git", "ai", "context", "developer-tools", "cli", "llm", "rag", "claude", "copilot"],
   "license": "MIT",
