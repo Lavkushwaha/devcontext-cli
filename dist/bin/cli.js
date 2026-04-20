@@ -235,20 +235,22 @@ async function installHooks(repoRoot, hooks) {
   const hooksDir = path3.join(repoRoot, ".git", "hooks");
   const installed = [];
   const hookScript = `#!/bin/sh
-# devcontext: auto-update context
-if command -v devcontext > /dev/null 2>&1; then
+# dev-context: auto-update context
+if command -v dev-context > /dev/null 2>&1; then
+  dev-context update --silent &
+elif command -v devcontext > /dev/null 2>&1; then
   devcontext update --silent &
 elif command -v dctx > /dev/null 2>&1; then
   dctx update --silent &
 elif command -v npx > /dev/null 2>&1; then
-  npx devcontext update --silent &
+  npx dev-context update --silent &
 fi
 `;
   for (const hookName of hooks) {
     const hookPath = path3.join(hooksDir, hookName);
     try {
       const existing = await fs3.readFile(hookPath, "utf-8").catch(() => "");
-      if (existing.includes("devcontext")) continue;
+      if (existing.includes("dev-context") || existing.includes("devcontext")) continue;
       if (existing) {
         await fs3.appendFile(hookPath, "\n" + hookScript);
       } else {
@@ -591,7 +593,7 @@ async function compileContext(repoRoot, config, scan, stack, commits, branch, re
     }
   }
   const ts = (/* @__PURE__ */ new Date()).toISOString().replace("T", " ").slice(0, 16);
-  const header = `<!-- devcontext | ${ts} | ${tokens} tokens -->
+  const header = `<!-- dev-context | ${ts} | ${tokens} tokens -->
 `;
   return header + full;
 }
@@ -692,12 +694,12 @@ async function updateGitignore(root) {
     const content = await fs2.readFile(gitignorePath, "utf-8");
     if (!content.includes(CONTEXT_DIR)) {
       await fs2.appendFile(gitignorePath, `
-# devcontext
+# dev-context
 ${CONTEXT_DIR}/
 `);
     }
   } catch {
-    await fs2.writeFile(gitignorePath, `# devcontext
+    await fs2.writeFile(gitignorePath, `# dev-context
 ${CONTEXT_DIR}/
 `);
   }
@@ -709,7 +711,7 @@ async function createContextIgnore(root) {
     return false;
   } catch {
     const defaultContent = [
-      "# devcontext ignore patterns",
+      "# dev-context ignore patterns",
       "# Files listed here won't be included in context generation.",
       "# Uses glob syntax, same as .gitignore.",
       "",
@@ -776,7 +778,7 @@ function showBanner() {
 }
 function showMiniBanner() {
   console.log(
-    ctxGradient("  \u25B2 devcontext") + chalk.dim(" \xB7 context is everything\n")
+    ctxGradient("  \u25B2 dev-context") + chalk.dim(" \xB7 context is everything\n")
   );
 }
 function createSpinner(text) {
@@ -826,7 +828,7 @@ function table(rows) {
 // src/index.ts
 async function cmdInit(options) {
   if (!options.silent) showBanner();
-  const spinner = createSpinner("Initializing devcontext...");
+  const spinner = createSpinner("Initializing dev-context...");
   spinner.start();
   try {
     initGit();
@@ -880,7 +882,7 @@ async function cmdInit(options) {
     }
     spinner.stop();
     if (!options.silent) {
-      heading("devcontext initialized");
+      heading("dev-context initialized");
       console.log();
       table([
         ["Files scanned", String(scan.totalFiles)],
@@ -891,8 +893,8 @@ async function cmdInit(options) {
       ]);
       console.log();
       hint("  Paste .context/context.md into any AI chat.");
-      hint("  Run `devcontext show` to print context to stdout.");
-      hint("  Run `devcontext update` after making changes.\n");
+      hint("  Run `dev-context show` to print context to stdout.");
+      hint("  Run `dev-context update` after making changes.\n");
     }
     freeEncoder();
   } catch (err) {
@@ -912,7 +914,7 @@ async function cmdUpdate(options) {
     const config = await loadJson(root, CONFIG_FILE);
     if (!config) {
       spinner.stop();
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
     const branch = await getCurrentBranch();
@@ -958,12 +960,12 @@ async function cmdStatus() {
     const root = await findRepoRoot();
     const config = await loadJson(root, CONFIG_FILE);
     if (!config) {
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
     const content = await readContext(root);
     if (!content) {
-      warn("No context.md found. Run `devcontext init`.");
+      warn("No context.md found. Run `dev-context init`.");
       return;
     }
     const tokens = countTokens(content);
@@ -995,7 +997,7 @@ async function cmdShow() {
     const root = await findRepoRoot();
     const content = await readContext(root);
     if (!content) {
-      console.error(chalk2.yellow("No context.md. Run `devcontext init` first."));
+      console.error(chalk2.yellow("No context.md. Run `dev-context init` first."));
       process.exit(1);
     }
     process.stdout.write(content);
@@ -1011,7 +1013,7 @@ async function cmdConfig(options) {
     const root = await findRepoRoot();
     const config = await loadJson(root, CONFIG_FILE);
     if (!config) {
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
     let changed = false;
@@ -1093,14 +1095,14 @@ async function cmdTimeMachine(action, args) {
     const root = await findRepoRoot();
     const config = await loadJson(root, CONFIG_FILE);
     if (!config) {
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
     switch (action) {
       case "list": {
         const snapshots = await listSnapshots(root);
         if (!snapshots.length) {
-          hint("  No snapshots yet. Run `devcontext update` to create one.\n");
+          hint("  No snapshots yet. Run `dev-context update` to create one.\n");
           return;
         }
         heading(`Time machine \xB7 ${snapshots.length} snapshots`);
@@ -1113,8 +1115,8 @@ async function cmdTimeMachine(action, args) {
           );
         }
         console.log();
-        hint("  Use `devcontext tm show <index>` to view a snapshot.");
-        hint("  Use `devcontext tm restore <index>` to restore.\n");
+        hint("  Use `dev-context tm show <index>` to view a snapshot.");
+        hint("  Use `dev-context tm restore <index>` to restore.\n");
         break;
       }
       case "show": {
@@ -1187,12 +1189,12 @@ async function cmdTimeMachine(action, args) {
         break;
       }
       default:
-        hint("  Usage: devcontext tm <list|show|restore|diff> [args]");
+        hint("  Usage: dev-context tm <list|show|restore|diff> [args]");
         hint("  Examples:");
-        hint("    devcontext tm list");
-        hint("    devcontext tm show 0");
-        hint("    devcontext tm restore 3");
-        hint("    devcontext tm diff 0 2\n");
+        hint("    dev-context tm list");
+        hint("    dev-context tm show 0");
+        hint("    dev-context tm restore 3");
+        hint("    dev-context tm diff 0 2\n");
     }
     freeEncoder();
   } catch (err) {
@@ -1202,8 +1204,8 @@ async function cmdTimeMachine(action, args) {
 
 // src/bin/cli.ts
 var program = new Command();
-program.name("devcontext").description("Git-aware AI context generator. Stop wasting tokens teaching AI about your codebase.").version("0.1.0");
-program.command("init").description("Initialize devcontext for this repository").option("-b, --budget <tokens>", "Token budget for context output", parseInt).option("-d, --depth <type>", "Sync depth: recent or inception", "recent").option("-c, --commits <count>", "Max commits to parse (for inception)", parseInt).option("-s, --silent", "Suppress output").action(async (opts) => {
+program.name("dev-context").description("Git-aware AI context generator. Stop wasting tokens teaching AI about your codebase.").version("0.1.0");
+program.command("init").description("Initialize dev-context for this repository").option("-b, --budget <tokens>", "Token budget for context output", parseInt).option("-d, --depth <type>", "Sync depth: recent or inception", "recent").option("-c, --commits <count>", "Max commits to parse (for inception)", parseInt).option("-s, --silent", "Suppress output").action(async (opts) => {
   await cmdInit({
     budget: opts.budget,
     depth: opts.depth,

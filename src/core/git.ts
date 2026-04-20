@@ -92,13 +92,15 @@ export async function installHooks(repoRoot: string, hooks: string[]): Promise<s
   const installed: string[] = [];
 
   const hookScript = `#!/bin/sh
-# devcontext: auto-update context
-if command -v devcontext > /dev/null 2>&1; then
+# dev-context: auto-update context
+if command -v dev-context > /dev/null 2>&1; then
+  dev-context update --silent &
+elif command -v devcontext > /dev/null 2>&1; then
   devcontext update --silent &
 elif command -v dctx > /dev/null 2>&1; then
   dctx update --silent &
 elif command -v npx > /dev/null 2>&1; then
-  npx devcontext-cli update --silent &
+  npx dev-context update --silent &
 fi
 `;
 
@@ -106,7 +108,7 @@ fi
     const hookPath = path.join(hooksDir, hookName);
     try {
       const existing = await fs.readFile(hookPath, "utf-8").catch(() => "");
-      if (existing.includes("devcontext")) continue;
+      if (existing.includes("dev-context") || existing.includes("devcontext")) continue;
 
       if (existing) {
         await fs.appendFile(hookPath, "\n" + hookScript);

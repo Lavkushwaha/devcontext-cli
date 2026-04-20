@@ -14,13 +14,13 @@ import {
 const program = new Command();
 
 program
-  .name("devcontext")
+  .name("dev-context")
   .description("Git-aware AI context generator. Stop wasting tokens teaching AI about your codebase.")
   .version("0.1.0");
 
 program
   .command("init")
-  .description("Initialize devcontext for this repository")
+  .description("Initialize dev-context for this repository")
   .option("-b, --budget <tokens>", "Token budget for context output", parseInt)
   .option("-d, --depth <type>", "Sync depth: recent or inception", "recent")
   .option("-c, --commits <count>", "Max commits to parse (for inception)", parseInt)

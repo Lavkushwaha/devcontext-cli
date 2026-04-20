@@ -38,7 +38,7 @@ export function showBanner(): void {
 
 export function showMiniBanner(): void {
   console.log(
-    ctxGradient("  ▲ devcontext") + chalk.dim(" · context is everything\n")
+    ctxGradient("  ▲ dev-context") + chalk.dim(" · context is everything\n")
   );
 }
 

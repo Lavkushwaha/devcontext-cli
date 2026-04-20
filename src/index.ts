@@ -56,7 +56,7 @@ export async function cmdInit(options: {
 }): Promise<void> {
   if (!options.silent) showBanner();
 
-  const spinner = createSpinner("Initializing devcontext...");
+  const spinner = createSpinner("Initializing dev-context...");
   spinner.start();
 
   try {
@@ -136,7 +136,7 @@ export async function cmdInit(options: {
     spinner.stop();
 
     if (!options.silent) {
-      heading("devcontext initialized");
+      heading("dev-context initialized");
       console.log();
       table([
         ["Files scanned", String(scan.totalFiles)],
@@ -147,8 +147,8 @@ export async function cmdInit(options: {
       ]);
       console.log();
       hint("  Paste .context/context.md into any AI chat.");
-      hint("  Run `devcontext show` to print context to stdout.");
-      hint("  Run `devcontext update` after making changes.\n");
+      hint("  Run `dev-context show` to print context to stdout.");
+      hint("  Run `dev-context update` after making changes.\n");
     }
 
     freeEncoder();
@@ -175,7 +175,7 @@ export async function cmdUpdate(options: { silent?: boolean }): Promise<void> {
     const config = await loadJson<DevContextConfig>(root, CONFIG_FILE);
     if (!config) {
       spinner.stop();
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
 
@@ -234,13 +234,13 @@ export async function cmdStatus(): Promise<void> {
     const root = await findRepoRoot();
     const config = await loadJson<DevContextConfig>(root, CONFIG_FILE);
     if (!config) {
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
 
     const content = await readContext(root);
     if (!content) {
-      warn("No context.md found. Run `devcontext init`.");
+      warn("No context.md found. Run `dev-context init`.");
       return;
     }
 
@@ -283,7 +283,7 @@ export async function cmdShow(): Promise<void> {
     const root = await findRepoRoot();
     const content = await readContext(root);
     if (!content) {
-      console.error(chalk.yellow("No context.md. Run `devcontext init` first."));
+      console.error(chalk.yellow("No context.md. Run `dev-context init` first."));
       process.exit(1);
     }
     // Raw stdout for piping
@@ -312,7 +312,7 @@ export async function cmdConfig(options: {
     const root = await findRepoRoot();
     const config = await loadJson<DevContextConfig>(root, CONFIG_FILE);
     if (!config) {
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
 
@@ -386,7 +386,7 @@ export async function cmdTimeMachine(action: string, args: string[]): Promise<vo
     const root = await findRepoRoot();
     const config = await loadJson<DevContextConfig>(root, CONFIG_FILE);
     if (!config) {
-      warn("Not initialized. Run `devcontext init` first.");
+      warn("Not initialized. Run `dev-context init` first.");
       return;
     }
 
@@ -394,7 +394,7 @@ export async function cmdTimeMachine(action: string, args: string[]): Promise<vo
       case "list": {
         const snapshots = await listSnapshots(root);
         if (!snapshots.length) {
-          hint("  No snapshots yet. Run `devcontext update` to create one.\n");
+          hint("  No snapshots yet. Run `dev-context update` to create one.\n");
           return;
         }
 
@@ -409,8 +409,8 @@ export async function cmdTimeMachine(action: string, args: string[]): Promise<vo
           );
         }
         console.log();
-        hint("  Use `devcontext tm show <index>` to view a snapshot.");
-        hint("  Use `devcontext tm restore <index>` to restore.\n");
+        hint("  Use `dev-context tm show <index>` to view a snapshot.");
+        hint("  Use `dev-context tm restore <index>` to restore.\n");
         break;
       }
 
@@ -491,12 +491,12 @@ export async function cmdTimeMachine(action: string, args: string[]): Promise<vo
       }
 
       default:
-        hint("  Usage: devcontext tm <list|show|restore|diff> [args]");
+        hint("  Usage: dev-context tm <list|show|restore|diff> [args]");
         hint("  Examples:");
-        hint("    devcontext tm list");
-        hint("    devcontext tm show 0");
-        hint("    devcontext tm restore 3");
-        hint("    devcontext tm diff 0 2\n");
+        hint("    dev-context tm list");
+        hint("    dev-context tm show 0");
+        hint("    dev-context tm restore 3");
+        hint("    dev-context tm diff 0 2\n");
     }
 
     freeEncoder();

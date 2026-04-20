@@ -1,15 +1,15 @@
-# devcontext
+# dev-context
 
 **Stop wasting tokens teaching AI about your codebase.**
 
 Every new AI chat starts from zero. You paste files, explain architecture, describe recent changes — burning tokens on context reconstruction before the real work begins.
 
-`devcontext` watches your git repo and generates a token-optimized context file that any AI instantly understands. It auto-updates on every commit, pull, and checkout.
+`dev-context` watches your git repo and generates a token-optimized context file that any AI instantly understands. It auto-updates on every commit, pull, and checkout.
 
 ```
-$ devcontext init
+$ dev-context init
 
-  ◆ devcontext initialized
+  ◆ dev-context initialized
 
   │ Files scanned        347
   │ Commits parsed       30
@@ -21,24 +21,24 @@ $ devcontext init
 ## Install
 
 ```bash
-npm install -g devcontext-cli
+npm install -g dev-context
 ```
 
 Or use without installing:
 ```bash
-npx devcontext-cli init
+npx dev-context init
 ```
 
 ## Quick Start
 
 ```bash
 # Initialize in your repo (scans files, parses git log, generates context)
-devcontext init
+dev-context init
 
 # Paste context into any AI chat
-devcontext show | pbcopy          # macOS
-devcontext show | xclip           # Linux
-devcontext show | clip             # Windows
+dev-context show | pbcopy          # macOS
+dev-context show | xclip           # Linux
+dev-context show | clip             # Windows
 
 # Or just open and copy
 cat .context/context.md
@@ -53,7 +53,7 @@ Git events (commit/pull/push/checkout/open)
     │
     ▼
 ┌─────────────────────────────┐
-│     devcontext engine       │
+│     dev-context engine       │
 │  ┌──────────┐ ┌──────────┐  │
 │  │  Scanner  │ │  Differ  │  │
 │  └──────────┘ └──────────┘  │
@@ -82,32 +82,32 @@ Git events (commit/pull/push/checkout/open)
 
 | Command | Alias | Description |
 |---------|-------|-------------|
-| `devcontext init` | | First-time setup. Scans repo, generates context, installs hooks |
-| `devcontext update` | | Refresh context from latest git state |
-| `devcontext show` | | Print context.md to stdout (pipe-friendly) |
-| `devcontext status` | | Show context freshness, token count, stats |
-| `devcontext config` | | View/update settings |
-| `devcontext install-hook` | | Install git hooks for auto-sync |
-| `devcontext tm list` | `timemachine list` | Browse past context snapshots |
-| `devcontext tm show <n>` | | View a specific snapshot |
-| `devcontext tm restore <n>` | | Restore a snapshot as current context |
-| `devcontext tm diff <a> <b>` | | Diff two snapshots |
+| `dev-context init` | | First-time setup. Scans repo, generates context, installs hooks |
+| `dev-context update` | | Refresh context from latest git state |
+| `dev-context show` | | Print context.md to stdout (pipe-friendly) |
+| `dev-context status` | | Show context freshness, token count, stats |
+| `dev-context config` | | View/update settings |
+| `dev-context install-hook` | | Install git hooks for auto-sync |
+| `dev-context tm list` | `timemachine list` | Browse past context snapshots |
+| `dev-context tm show <n>` | | View a specific snapshot |
+| `dev-context tm restore <n>` | | Restore a snapshot as current context |
+| `dev-context tm diff <a> <b>` | | Diff two snapshots |
 
 ### Init Options
 
 ```bash
-devcontext init --budget 8000           # Larger token budget
-devcontext init --depth inception       # Parse all commits from beginning
-devcontext init --commits 500           # Number of commits for inception mode
+dev-context init --budget 8000           # Larger token budget
+dev-context init --depth inception       # Parse all commits from beginning
+dev-context init --commits 500           # Number of commits for inception mode
 ```
 
 ### Config Options
 
 ```bash
-devcontext config --budget 6000
-devcontext config --max-commits 50
-devcontext config --sync-depth inception
-devcontext config --auto-inject true     # For IDE extension
+dev-context config --budget 6000
+dev-context config --max-commits 50
+dev-context config --sync-depth inception
+dev-context config --auto-inject true     # For IDE extension
 ```
 
 ## Time Machine
@@ -115,7 +115,7 @@ devcontext config --auto-inject true     # For IDE extension
 Every `update` saves a snapshot. Browse your codebase's context evolution:
 
 ```bash
-$ devcontext tm list
+$ dev-context tm list
 
   ◆ Time machine · 12 snapshots
 
@@ -124,16 +124,16 @@ $ devcontext tm list
   ○ [2] 2026-04-18 09:15 c1d4e8f2 · 3490 tokens
   ...
 
-$ devcontext tm diff 0 2     # What changed in context between snapshots
-$ devcontext tm restore 2    # Go back to an earlier context state
-$ devcontext tm show 1       # View a specific snapshot
+$ dev-context tm diff 0 2     # What changed in context between snapshots
+$ dev-context tm restore 2    # Go back to an earlier context state
+$ dev-context tm show 1       # View a specific snapshot
 ```
 
 Use case: "The AI was giving better answers last week. What context did it have then?"
 
 ## VS Code Extension
 
-Install the `devcontext-vscode` extension for IDE integration:
+Install the `dev-context-vscode` extension for IDE integration:
 
 - **Status bar** shows current token count
 - **Auto-inject** context before AI queries (configurable)
@@ -141,11 +141,11 @@ Install the `devcontext-vscode` extension for IDE integration:
 - **Stale detection** suggests updates when context is old
 - **File watching** tracks git changes in real-time
 
-Settings: `Cmd+,` → search "devcontext"
+Settings: `Cmd+,` → search "dev-context"
 
 ## Auto-Sync
 
-By default, `devcontext init` installs these git hooks:
+By default, `dev-context init` installs these git hooks:
 
 | Hook | Trigger | Default |
 |------|---------|---------|
@@ -158,7 +158,7 @@ Hooks run async — they don't slow down your git workflow.
 ## Example Output
 
 ```markdown
-<!-- devcontext | 2026-04-20 14:30 | 3847 tokens -->
+<!-- dev-context | 2026-04-20 14:30 | 3847 tokens -->
 # my-trading-app
 Repo: user/my-trading-app | Branch: main
 
@@ -186,7 +186,7 @@ Tools: GetX, Tailwind CSS
 
 ## Extending
 
-devcontext exports its full API for programmatic use:
+dev-context exports its full API for programmatic use:
 
 ```typescript
 import {
@@ -197,7 +197,7 @@ import {
   compileContext,
   readContext,
   listSnapshots,
-} from "devcontext-cli";
+} from "dev-context";
 
 // Use in your own tools, IDE extensions, CI pipelines
 const root = await findRepoRoot();
@@ -223,7 +223,7 @@ The `extensions/` directory contains:
 
 This tool exists because of one insight: **AI context is a first-class artifact that should be version-controlled, auto-maintained, and always current.**
 
-Your codebase has a README that goes stale. It has docs that lag behind reality. But it has a git log that is always true. devcontext turns that truth into something every AI can consume instantly.
+Your codebase has a README that goes stale. It has docs that lag behind reality. But it has a git log that is always true. dev-context turns that truth into something every AI can consume instantly.
 
 ## License
 

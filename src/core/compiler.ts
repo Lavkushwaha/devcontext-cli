@@ -203,7 +203,7 @@ export async function compileContext(
   }
 
   const ts = new Date().toISOString().replace("T", " ").slice(0, 16);
-  const header = `<!-- devcontext | ${ts} | ${tokens} tokens -->\n`;
+  const header = `<!-- dev-context | ${ts} | ${tokens} tokens -->\n`;
   return header + full;
 }
 
@@ -344,10 +344,10 @@ export async function updateGitignore(root: string): Promise<void> {
   try {
     const content = await fs.readFile(gitignorePath, "utf-8");
     if (!content.includes(CONTEXT_DIR)) {
-      await fs.appendFile(gitignorePath, `\n# devcontext\n${CONTEXT_DIR}/\n`);
+      await fs.appendFile(gitignorePath, `\n# dev-context\n${CONTEXT_DIR}/\n`);
     }
   } catch {
-    await fs.writeFile(gitignorePath, `# devcontext\n${CONTEXT_DIR}/\n`);
+    await fs.writeFile(gitignorePath, `# dev-context\n${CONTEXT_DIR}/\n`);
   }
 }
 
@@ -361,7 +361,7 @@ export async function createContextIgnore(root: string): Promise<boolean> {
     return false; // already exists
   } catch {
     const defaultContent = [
-      "# devcontext ignore patterns",
+      "# dev-context ignore patterns",
       "# Files listed here won't be included in context generation.",
       "# Uses glob syntax, same as .gitignore.",
       "",

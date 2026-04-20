@@ -14,8 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
-  statusBarItem.command = "devcontext.show";
-  statusBarItem.tooltip = "devcontext · click to view context";
+  statusBarItem.command = "dev-context.show";
+  statusBarItem.tooltip = "dev-context · click to view context";
   updateStatusBar();
   statusBarItem.show();
   context.subscriptions.push(statusBarItem);
@@ -23,33 +23,33 @@ export function activate(context: vscode.ExtensionContext) {
   // ─── Commands ────────────────────────────────────────────────────────
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.init", async () => {
-      const terminal = vscode.window.createTerminal("devcontext");
+    vscode.commands.registerCommand("dev-context.init", async () => {
+      const terminal = vscode.window.createTerminal("dev-context");
       terminal.show();
-      terminal.sendText("npx devcontext-cli init");
+      terminal.sendText("npx dev-context init");
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.update", async () => {
-      const terminal = vscode.window.createTerminal("devcontext");
+    vscode.commands.registerCommand("dev-context.update", async () => {
+      const terminal = vscode.window.createTerminal("dev-context");
       terminal.show();
-      terminal.sendText("npx devcontext-cli update");
+      terminal.sendText("npx dev-context update");
       // Refresh status after a delay
       setTimeout(updateStatusBar, 3000);
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.show", async () => {
+    vscode.commands.registerCommand("dev-context.show", async () => {
       const contextPath = getContextFilePath();
       if (!contextPath) {
         const init = await vscode.window.showWarningMessage(
-          "devcontext not initialized in this workspace.",
+          "dev-context not initialized in this workspace.",
           "Initialize"
         );
         if (init === "Initialize") {
-          vscode.commands.executeCommand("devcontext.init");
+          vscode.commands.executeCommand("dev-context.init");
         }
         return;
       }
@@ -59,28 +59,28 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.copyContext", async () => {
+    vscode.commands.registerCommand("dev-context.copyContext", async () => {
       const content = readContextFile();
       if (!content) {
-        vscode.window.showWarningMessage("No context.md found. Run devcontext init.");
+        vscode.window.showWarningMessage("No context.md found. Run dev-context init.");
         return;
       }
       await vscode.env.clipboard.writeText(content);
       vscode.window.showInformationMessage(
-        `devcontext: Copied ${estimateTokens(content)} tokens to clipboard`
+        `dev-context: Copied ${estimateTokens(content)} tokens to clipboard`
       );
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.injectContext", async () => {
+    vscode.commands.registerCommand("dev-context.injectContext", async () => {
       const content = readContextFile();
       if (!content) {
-        vscode.window.showWarningMessage("No context.md found. Run devcontext init.");
+        vscode.window.showWarningMessage("No context.md found. Run dev-context init.");
         return;
       }
 
-      const config = vscode.workspace.getConfiguration("devcontext");
+      const config = vscode.workspace.getConfiguration("dev-context");
       const askBefore = config.get<boolean>("askBeforeInject", true);
 
       if (askBefore) {
@@ -114,18 +114,18 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.timeMachine", async () => {
-      const terminal = vscode.window.createTerminal("devcontext");
+    vscode.commands.registerCommand("dev-context.timeMachine", async () => {
+      const terminal = vscode.window.createTerminal("dev-context");
       terminal.show();
-      terminal.sendText("npx devcontext-cli tm list");
+      terminal.sendText("npx dev-context tm list");
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("devcontext.settings", async () => {
+    vscode.commands.registerCommand("dev-context.settings", async () => {
       vscode.commands.executeCommand(
         "workbench.action.openSettings",
-        "devcontext"
+        "dev-context"
       );
     })
   );
@@ -146,13 +146,13 @@ export function activate(context: vscode.ExtensionContext) {
       if (age > 60 * 60 * 1000) {
         vscode.window
           .showInformationMessage(
-            "devcontext: Context is stale. Update?",
+            "dev-context: Context is stale. Update?",
             "Update",
             "Later"
           )
           .then((action) => {
             if (action === "Update") {
-              vscode.commands.executeCommand("devcontext.update");
+              vscode.commands.executeCommand("dev-context.update");
             }
           });
       }
@@ -213,15 +213,15 @@ function setupFileWatcher(context: vscode.ExtensionContext): void {
   );
 
   gitWatcher.onDidChange(() => {
-    const config = vscode.workspace.getConfiguration("devcontext");
+    const config = vscode.workspace.getConfiguration("dev-context");
     const autoUpdate = config.get<boolean>("autoUpdateOnSave", false);
     if (autoUpdate && getContextFilePath()) {
       // Auto-update silently
       const terminal = vscode.window.createTerminal({
-        name: "devcontext",
+        name: "dev-context",
         hideFromUser: true,
       });
-      terminal.sendText("npx devcontext-cli update --silent");
+      terminal.sendText("npx dev-context update --silent");
       setTimeout(() => {
         terminal.dispose();
         updateStatusBar();

@@ -1,6 +1,6 @@
-# Contributing to devcontext
+# Contributing to dev-context
 
-Thanks for your interest in contributing! devcontext is an open-source developer tool and contributions of all kinds are welcome.
+Thanks for your interest in contributing! dev-context is an open-source developer tool and contributions of all kinds are welcome.
 
 ## Development Setup
 
@@ -19,9 +19,9 @@ npm link
 
 # Test in any git repo
 cd /path/to/some-repo
-devcontext init
-devcontext status
-devcontext tm list
+dev-context init
+dev-context status
+dev-context tm list
 ```
 
 ### Project Structure
@@ -54,7 +54,7 @@ extensions/
 
 ### Medium
 - Implement `.contextignore` file parsing
-- Add `devcontext diff` command (diff current vs last snapshot)
+- Add `dev-context diff` command (diff current vs last snapshot)
 - Improve token counting accuracy
 - Add JSON output mode for CI/CD integration
 
